@@ -2,6 +2,8 @@ package br.com.taianesb.controller;
 
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +53,21 @@ public class PrimeiraController {
         return "Os parâmetros são: " + headers.entrySet();
     }
 
+    @GetMapping("/primeiroMetodoResponseEntity")
+    public ResponseEntity<Object> primeiroMetodoResponseEntity() {
+        return ResponseEntity.status(200).body("Mensagem de erro...");
+    }
+
+    @GetMapping("/primeiroMetodoResponseEntity2/{id}")
+    public ResponseEntity<Object> primeiroMetodoResponseEntity2(@PathVariable Long id) {
+        var usuario = new Usuario("taiane");
+
+        if(id > 5) {
+            return ResponseEntity.status(HttpStatus.OK).body(usuario);
+        }
+        return ResponseEntity.badRequest().body("Id menor que 5...");
+    }
+    
     record Usuario(String username) {}
 
 }
